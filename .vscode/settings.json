@@ -1,0 +1,32 @@
+{
+  "vscodeGitCommit.variables": {
+    "prefix": "keke",
+    "scope": [
+      {
+        "label": "第一章節",
+      },
+      {
+        "label": "vscode 設定",
+      }
+    ],
+    "feat": [
+      {
+        "label": "feat"
+      },
+      {
+        "label": "fix"
+      },
+      {
+        "label": "chore"
+      }
+    ]
+  },
+  // "files.associations": {
+  //   "*.html": "html"
+  // },
+  // "terminal.integrated.shell.osx": "/bin/zsh"
+  "vscodeGitCommit.template": [
+    "{feat}: {scope}→{message}"
+  ],
+
+}
