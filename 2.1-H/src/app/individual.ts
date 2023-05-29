@@ -1,5 +1,5 @@
 import { Coord } from './coord';
-import { Habit } from './habit';
+import { MatchBasedItem } from './matchTypeStrategy/habitBased.interface';
 import { MatchTypeStrategy } from './matchTypeStrategy/matchTypeStrategy';
 
 export enum Gander {
@@ -8,29 +8,40 @@ export enum Gander {
 }
 
 export class Individual {
+
   private _id!: number;
+  private _name!: string;
+
   private _gander!: Gander.FEMALE | Gander.MALE;
   private _age!: number;
   private _intro!: string;
-  private _habits!: Habit[];
+  private _habits: Set<string> = new Set();
   private _coord!: Coord;
-  private _matchType!: MatchTypeStrategy;
+  private _matchTypeStrategy!: MatchTypeStrategy;
 
   constructor(
     id: number,
+    name: string,
     gander: Gander.FEMALE | Gander.MALE,
     age: number,
     intro: string,
-    habits: Habit[],
+    habits: Set<string>,
     coord: Coord,
-    matchType: MatchTypeStrategy
+    matchTypeStrategy: MatchTypeStrategy
   ) {
     this.id = id;
+    this.name = name;
     this.gander = gander;
+    this.age = age;
     this.intro = intro;
     this.habits = habits;
     this.coord = coord;
-    this.matchType = matchType;
+    this.matchTypeStrategy = matchTypeStrategy;
+  }
+
+  match(individualList:Individual[]):MatchBasedItem[]{
+    const otherIndividualList = individualList.filter(individual => individual.id !== this.id);
+    return this._matchTypeStrategy.matching(this,otherIndividualList);
   }
 
   public get id(): number {
@@ -44,6 +55,13 @@ export class Individual {
       throw Error('id must be greater than 0');
     }
     this._id = value;
+  }
+
+  public get name(): string {
+    return this._name;
+  }
+  public set name(value: string) {
+    this._name = value;
   }
 
   public get gander(): Gander.FEMALE | Gander.MALE {
@@ -60,8 +78,8 @@ export class Individual {
     if (typeof value !== 'number') {
       throw Error('age must be number');
     }
-    if (value >= 18) {
-      throw Error('age must be less than 18');
+    if (value < 18) {
+      throw Error('age must be greater than 17');
     }
     this._age = value;
   }
@@ -79,17 +97,15 @@ export class Individual {
     this._intro = value;
   }
 
-  public get habits(): Habit[] {
+  public get habits(): Set<string> {
     return this._habits;
   }
-  public set habits(value: Habit[]) {
-    if (!Array.isArray(value)) {
-      throw Error('habits must be array');
-    }
-    if (value.length > 10) {
+  public set habits(value: Set<string>) {
+    if (value.size > 10) {
       throw Error('habits must be less than 10');
     }
-    this._habits = value;
+
+    this._habits = new Set(value);
   }
 
   public get coord(): Coord {
@@ -99,10 +115,10 @@ export class Individual {
     this._coord = value;
   }
 
-  public get matchType(): MatchTypeStrategy {
-    return this._matchType;
+  public get matchTypeStrategy(): MatchTypeStrategy {
+    return this._matchTypeStrategy;
   }
-  public set matchType(value: MatchTypeStrategy) {
-    this._matchType = value;
+  public set matchTypeStrategy(value: MatchTypeStrategy) {
+    this._matchTypeStrategy = value;
   }
 }
