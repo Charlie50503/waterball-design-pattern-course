@@ -1,6 +1,6 @@
 import { Coord } from './Coord';
 import { Habit } from './habit';
-import { MatchTypeStrategy } from './MatchTypeStrategy/MatchTypeStrategy';
+import { MatchTypeStrategy } from './matchTypeStrategy/matchTypeStrategy';
 
 export enum Gander {
   MALE,
