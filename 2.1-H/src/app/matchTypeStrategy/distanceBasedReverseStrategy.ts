@@ -1,5 +1,5 @@
-import { CalculatePointBehavior, DistanceBehavior } from './matchBehavior/calculatePointBehavior';
-import { CompareBehavior, DistanceBasedReverseCompareBehavior } from './matchBehavior/compareBehavior';
+import { DistanceBehavior } from './matchBehavior/calculatePointBehavior';
+import { DistanceBasedReverseCompareBehavior } from './matchBehavior/compareBehavior';
 import { MatchTypeStrategy } from './matchTypeStrategy';
 
 

@@ -1,7 +1,5 @@
-import { Individual } from '../individual';
-import { MatchBasedItem } from './habitBased.interface';
-import { CalculatePointBehavior, CommonHabitSizeBehavior } from './matchBehavior/calculatePointBehavior';
-import { CompareBehavior, HabitBasedReverseCompareBehavior } from './matchBehavior/compareBehavior';
+import { CommonHabitSizeBehavior } from './matchBehavior/calculatePointBehavior';
+import { HabitBasedReverseCompareBehavior } from './matchBehavior/compareBehavior';
 import { MatchTypeStrategy } from './matchTypeStrategy';
 
 export class HabitBasedReverseStrategy extends MatchTypeStrategy {
