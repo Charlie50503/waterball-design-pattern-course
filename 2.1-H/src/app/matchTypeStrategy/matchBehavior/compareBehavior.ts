@@ -36,7 +36,7 @@ export class DistanceBasedCompareBehavior implements CompareBehavior {
       return -1;
     }
     if (a.point < b.point) {
-      return -1;
+      return 1;
     }
     // a 必須等於 b
     return 0;
@@ -46,10 +46,10 @@ export class DistanceBasedCompareBehavior implements CompareBehavior {
 export class DistanceBasedReverseCompareBehavior implements CompareBehavior {
   compare(a: MatchBasedItem, b: MatchBasedItem) {
     if (a.point > b.point) {
-      return -1;
+      return 1;
     }
     if (a.point < b.point) {
-      return 1;
+      return -1;
     }
     // a 必須等於 b
     return 0;
