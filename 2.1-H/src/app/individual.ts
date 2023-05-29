@@ -1,4 +1,4 @@
-import { Coord } from './Coord';
+import { Coord } from './coord';
 import { Habit } from './habit';
 import { MatchTypeStrategy } from './matchTypeStrategy/matchTypeStrategy';
 
