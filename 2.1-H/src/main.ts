@@ -6,7 +6,7 @@ import { DistanceBasedStrategy } from './app/matchTypeStrategy/distanceBasedStra
 import { HabitBasedReverseStrategy } from './app/matchTypeStrategy/habitBasedReverseStrategy';
 import { HabitBasedStrategy } from './app/matchTypeStrategy/habitBasedStrategy';
 import { CommonHabitSizeBehavior, DistanceBehavior } from './app/matchTypeStrategy/matchBehavior/calculatePointBehavior';
-import { DistanceBasedCompareBehavior, DistanceBasedReverseCompareBehavior, HabitBasedReverseCompareBehavior } from './app/matchTypeStrategy/matchBehavior/compareBehavior';
+import { DistanceBasedCompareBehavior, HabitBasedCompareBehavior } from './app/matchTypeStrategy/matchBehavior/compareBehavior';
 
 function main() {
   const matchmakingSystem = new MatchmakingSystem();
@@ -18,7 +18,7 @@ function main() {
     '你好',
     new Set(['籃球','2222']),
     new Coord(1000, 1),
-    new HabitBasedStrategy(new HabitBasedReverseCompareBehavior,new CommonHabitSizeBehavior)
+    new HabitBasedStrategy(new HabitBasedCompareBehavior(false),new CommonHabitSizeBehavior)
   ));
   matchmakingSystem.addIndividual(new Individual(
     2,
@@ -28,7 +28,7 @@ function main() {
     '你好',
     new Set(['SSS','2222']),
     new Coord(1, 1),
-    new HabitBasedReverseStrategy(new HabitBasedReverseCompareBehavior,new CommonHabitSizeBehavior)
+    new HabitBasedReverseStrategy(new HabitBasedCompareBehavior(true),new CommonHabitSizeBehavior)
   ));
   matchmakingSystem.addIndividual(new Individual(
     3,
@@ -38,7 +38,7 @@ function main() {
     '你好',
     new Set(['333','籃球']),
     new Coord(10000, 8000),
-    new DistanceBasedStrategy(new DistanceBasedCompareBehavior,new DistanceBehavior)
+    new DistanceBasedStrategy(new DistanceBasedCompareBehavior(false),new DistanceBehavior)
   ));
   matchmakingSystem.addIndividual(new Individual(
     4,
@@ -48,7 +48,7 @@ function main() {
     '你好',
     new Set(['2222','籃球']),
     new Coord(10000, 10000),
-    new DistanceBasedReverseStrategy(new DistanceBasedReverseCompareBehavior,new DistanceBehavior)
+    new DistanceBasedReverseStrategy(new DistanceBasedCompareBehavior(true),new DistanceBehavior)
   ));
   matchmakingSystem.startMatch();
 }
