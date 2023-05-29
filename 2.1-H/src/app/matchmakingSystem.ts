@@ -15,7 +15,10 @@ export class MatchmakingSystem {
       throw Error('No Individuals in the system');
     }
     this.individualList.forEach((ownIndividual) => {
-      this.findBastMatch(ownIndividual, this.individualList);
+      const otherIndividuals = this.individualList.filter(
+        (otherIndividual) => otherIndividual !== ownIndividual
+      )
+      this.findBastMatch(ownIndividual, otherIndividuals);
     });
   }
 

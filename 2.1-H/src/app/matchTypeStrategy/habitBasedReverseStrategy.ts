@@ -1,44 +1,11 @@
 import { Individual } from '../individual';
 import { MatchBasedItem } from './habitBased.interface';
+import { CalculatePointBehavior, CommonHabitSizeBehavior } from './matchBehavior/calculatePointBehavior';
+import { CompareBehavior, HabitBasedReverseCompareBehavior } from './matchBehavior/compareBehavior';
 import { MatchTypeStrategy } from './matchTypeStrategy';
 
 export class HabitBasedReverseStrategy extends MatchTypeStrategy {
-  constructor() {
-    super()
+  constructor(compareBehavior:HabitBasedReverseCompareBehavior,calculatePointBehavior:CommonHabitSizeBehavior) {
+    super(compareBehavior,calculatePointBehavior);
   }
-
-  matching(ownIndividual: Individual, otherIndividuals: Individual[]) {
-    const matchBasedList: MatchBasedItem[] = [];
-    otherIndividuals.forEach(
-      this.loopWrapper(
-        ownIndividual,
-        matchBasedList,
-        commonHabitSize,
-        this.attachMatchBasedList
-      )
-    );
-    matchBasedList.sort(compare);
-    return matchBasedList;
-  }
-
-}
-
-function commonHabitSize(
-  ownIndividual: Individual,
-  otherIndividual: Individual
-) {
-  return new Set(
-    [...ownIndividual.habits].filter((x) => otherIndividual.habits.has(x))
-  ).size;
-}
-
-function compare(a: MatchBasedItem, b: MatchBasedItem) {
-  if (a.point > b.point) {
-    return -1;
-  }
-  if (a.point < b.point) {
-    return 1;
-  }
-  // a 必須等於 b
-  return 0;
 }
