@@ -23,25 +23,34 @@ export class Deck {
       this.cards[m] = this.cards[i];
       this.cards[i] = t;
     }
-    this.cards.forEach((card)=>{
-      console.log(card);
-      
-    })
-    
+    // this.cards.forEach((card)=>{
+    //   console.log(card);
+    // })
   }
 
-  initCards() {
-    const cards: Card[] = [];
+  private initCards() {
+    let cards: Card[] = [];
+
     for (const unoNumber in UnoNumber) {
-      for (const color in Color) {
-        cards.push(
-          new Card(
-            Color[color as keyof typeof Color],
-            UnoNumber[unoNumber as keyof typeof UnoNumber]
-          )
-        );
+      if (typeof UnoNumber[unoNumber as keyof typeof UnoNumber] === 'string') {
+        for (const color in Color) {
+          if (typeof Color[color as keyof typeof Color] === 'string') {
+            cards.push(
+              new Card(
+                Color[color as keyof typeof Color],
+                UnoNumber[unoNumber as keyof typeof UnoNumber]
+              )
+            );
+          }
+        }
       }
     }
-    return cards;
+
+    return cards
+  }
+
+  refresh(playedCards: Card[]) {
+    this.cards = [...this.cards, ...playedCards];
+    this.shuffle();
   }
 }
