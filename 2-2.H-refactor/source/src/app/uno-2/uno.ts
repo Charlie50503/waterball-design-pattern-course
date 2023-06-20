@@ -1,6 +1,5 @@
-import { Player } from './../template/player';
 import { CardGame } from '../template/card-game';
-import { UnoCard, UnoColor, UnoNumber } from './uno-card';
+import { UnoCard } from './uno-card';
 import { UnoDeck } from './uno-deck';
 import { UnoPlayer } from './uno-player';
 import rl from '../helper/readline';
