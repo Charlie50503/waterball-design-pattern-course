@@ -23,8 +23,8 @@ async function main(){
     new AIShowdownPlayer("player3",new Hand()),
     new AIShowdownPlayer("player4",new Hand()),
   ]
-  const uno = new Showdown(players);
-  await uno.startGame();
+  const showdown = new Showdown(players);
+  await showdown.startGame();
 }
 
 main();

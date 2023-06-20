@@ -1,20 +1,44 @@
-import { Card } from "./card";
-import { Deck } from "./deck";
-import { Player } from "./player";
+import { Card } from './card';
+import { Deck } from './deck';
+import { Player } from './player';
 
-export abstract class CardGame<T extends Card,K extends Player<T>> {
+export abstract class CardGame<T extends Card, K extends Player<T>> {
   deck: Deck<T>;
   players: K[];
+  roundTimes = 0;
+
   constructor(deck: Deck<T>, players: K[]) {
     this.deck = deck;
     this.players = players;
   }
-  abstract beforeGameStart():void
-  abstract startGame() :Promise<void>
-  abstract round() :Promise<void>
-  abstract isInitialHandSizeMax() :number
+  protected abstract beforeGameStart(): void;
+  
+  public async startGame(): Promise<void> {
+    this.drawHand();
+    this.beforeGameStart();
+    await this.playGame();
+    this.endGame();
+  }
+  
+  protected async playGame(): Promise<void> {
+    while (!this.isGameOver()) {
+      await this.round();
+      this.roundTimes++;
+    }
+  }
+
+  protected abstract round(): Promise<void>;
+  protected abstract isInitialHandSizeMax(): number;
   //確認是否達成遊戲結束條件
-  abstract isGameOver() :boolean
+  protected abstract isGameOver(): boolean;
   // 遊戲開始hook
-  abstract endGame() :void
+  protected abstract endGame(): void;
+
+  private drawHand() {
+    for (let index = 0; index < this.isInitialHandSizeMax(); index++) {
+      this.players.forEach((player) => {
+        player.hand.addCard(this.deck.drawCard()!);
+      });
+    }
+  }
 }

@@ -1,3 +1,4 @@
+import rl from '../helper/readline';
 import { CardGame } from '../template/card-game';
 import { ShowdownCard } from './showdown-card';
 import { showdownDeck } from './showdown-deck';
@@ -10,25 +11,9 @@ export class Showdown extends CardGame<ShowdownCard, ShowdownPlayer> {
     super(new showdownDeck(), players);
   }
 
-  beforeGameStart(): void {
-    while(this.deck.cards.length > 0) {
-      this.players.forEach((player) => {
-        player.hand.addCard(this.deck.drawCard()!);
-      });
-    }
-  }
+  protected beforeGameStart(): void {}
 
-  async startGame(): Promise<void> {
-    this.beforeGameStart();
-
-    while (!this.isGameOver()) {
-      await this.round();
-      this.roundTimes++;
-    }
-    this.endGame();
-  }
-
-  async round(): Promise<void> {
+  protected async round(): Promise<void> {
     let winner: ShowdownPlayer | null = null;
     let highestCard: ShowdownCard | null = null;
     for (const player of this.players) {
@@ -45,23 +30,11 @@ export class Showdown extends CardGame<ShowdownCard, ShowdownPlayer> {
     }
   }
 
-  endGame(): void {
-    console.log(`贏家是 ${this.getWinner()!.name}🎉🎉`);
-  }
-
-  isGameOver(): boolean {
-    return this.roundTimes >= 13;
-  }
-
-  isInitialHandSizeMax(): number {
+  protected isInitialHandSizeMax(): number {
     return 13;
   }
 
-  checkHasWinner(player: ShowdownPlayer): ShowdownPlayer | null {
-    return null;
-  }
-
-  getWinner() {
+  protected getWinner() {
     let winner: ShowdownPlayer | null = null;
     for (const player of this.players) {
       if (winner === null || player.point > winner.point) {
@@ -69,5 +42,14 @@ export class Showdown extends CardGame<ShowdownCard, ShowdownPlayer> {
       }
     }
     return winner;
+  }
+
+  protected isGameOver(): boolean {
+    return this.roundTimes >= 13;
+  }
+
+  protected endGame(): void {
+    console.log(`贏家是 ${this.getWinner()!.name}🎉🎉`);
+    rl.close();
   }
 }
