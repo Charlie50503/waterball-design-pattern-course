@@ -5,8 +5,6 @@ import { showdownDeck } from './showdown-deck';
 import { ShowdownPlayer } from './showdown-player';
 
 export class Showdown extends CardGame<ShowdownCard, ShowdownPlayer> {
-  roundTimes = 0;
-
   constructor(players: ShowdownPlayer[]) {
     super(new showdownDeck(), players);
   }
@@ -41,7 +39,7 @@ export class Showdown extends CardGame<ShowdownCard, ShowdownPlayer> {
         winner = player;
       }
     }
-    return winner;
+    return winner!;
   }
 
   protected isGameOver(): boolean {

@@ -28,8 +28,6 @@ export class HumanShowdownPlayer extends ShowdownPlayer {
     // 顯示玩家手牌給玩家看
     this.action.viewCards(this.hand.cards);
     // 玩家選擇出牌
-    // const card = game.deck.drawCard();
-
     const result = await reselectWithErrorHandling(
       this,
       () => this.action.selectCard(this.hand),

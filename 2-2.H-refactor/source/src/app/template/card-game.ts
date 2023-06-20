@@ -19,7 +19,7 @@ export abstract class CardGame<T extends Card, K extends Player<T>> {
     await this.playGame();
     this.endGame();
   }
-  
+
   protected async playGame(): Promise<void> {
     while (!this.isGameOver()) {
       await this.round();
@@ -34,6 +34,8 @@ export abstract class CardGame<T extends Card, K extends Player<T>> {
   // 遊戲開始hook
   protected abstract endGame(): void;
 
+  protected abstract getWinner(): K;
+  
   private drawHand() {
     for (let index = 0; index < this.isInitialHandSizeMax(); index++) {
       this.players.forEach((player) => {

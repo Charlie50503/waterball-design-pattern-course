@@ -25,7 +25,6 @@ export abstract class UnoPlayer extends Player<UnoCard> {
     }
 
     this.hand.addCard(card);
-    // return this.takeTurn(topCard, game);
   }
 }
 
