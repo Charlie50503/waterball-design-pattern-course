@@ -1,0 +1,15 @@
+import { Coord } from "../coord";
+
+export enum SpriteType {
+  Fire,
+  Water,
+  Hero,
+  Null
+}
+
+export class Sprite {
+  type!: SpriteType;
+  coord!: Coord;
+
+  constructor() { }
+}
