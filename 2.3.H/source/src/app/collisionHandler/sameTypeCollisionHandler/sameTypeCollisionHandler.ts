@@ -1,6 +1,6 @@
-import { World } from '../world';
-import { Sprite, SpriteType } from '../sprite/sprite';
-import { CollisionHandler } from './collisionHandler';
+import { World } from '../../world';
+import { Sprite, SpriteType } from '../../sprite/sprite';
+import { CollisionHandler } from '../collisionHandler';
 
 export abstract class SameTypeCollisionHandler extends CollisionHandler {
   doHandling(space: World, sprite1: Sprite, sprite2: Sprite): void {
@@ -14,12 +14,3 @@ export abstract class SameTypeCollisionHandler extends CollisionHandler {
   protected abstract getSprite2Type(): SpriteType;
 }
 
-export class HeroAndHeroCollisionHandler extends SameTypeCollisionHandler {
-  protected getSprite1Type() {
-    return SpriteType.Hero;
-  }
-
-  protected getSprite2Type() {
-    return SpriteType.Hero;
-  }
-}
