@@ -12,4 +12,8 @@ export class Sprite {
   coord!: Coord;
 
   constructor() { }
+
+  setCoord(x:number){
+    this.coord = new Coord(x)
+  }
 }
