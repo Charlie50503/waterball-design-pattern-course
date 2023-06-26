@@ -1,13 +1,13 @@
-import { FireAndFireCollisionHandler } from "./app/collisionHandler/fileAndFileCollisionHandler";
-import { HeroAndFireCollisionHandler } from "./app/collisionHandler/heroAndFireCollisionHandler";
-import { HeroAndHeroCollisionHandler } from "./app/collisionHandler/heroAndHeroCollisionHandler";
-import { HeroAndWaterCollisionHandler } from "./app/collisionHandler/heroAndWaterCollisionHandler";
-import { WaterAndFireCollisionHandler } from "./app/collisionHandler/waterAndFireCollisionHandler";
-import { WaterAndWaterCollisionHandler } from "./app/collisionHandler/waterAndWaterCollisionHandler";
-import { World } from "./app/world";
-import { Fire } from "./app/sprite/fire";
-import { Hero } from "./app/sprite/hero";
-import { Water } from "./app/sprite/water";
+import { SameTypeFireCollisionHandler } from './app/collisionHandler/sameTypeCollisionHandler/sameTypeFireCollisionHandler';
+import { SameTypeHeroCollisionHandler } from './app/collisionHandler/sameTypeCollisionHandler/sameTypeHeroCollisionHandler';
+import { SameTypeWaterCollisionHandler } from './app/collisionHandler/sameTypeCollisionHandler/sameTypeWaterCollisionHandler';
+import { HeroAndFireCollisionHandler } from './app/collisionHandler/heroAndFireCollisionHandler';
+import { HeroAndWaterCollisionHandler } from './app/collisionHandler/heroAndWaterCollisionHandler';
+import { WaterAndFireCollisionHandler } from './app/collisionHandler/waterAndFireCollisionHandler';
+import { World } from './app/world';
+import { Fire } from './app/sprite/fire';
+import { Hero } from './app/sprite/hero';
+import { Water } from './app/sprite/water';
 
 function main() {
   const sprites = [
@@ -21,15 +21,19 @@ function main() {
     new Water(),
     new Fire(),
     new Fire(),
-  ]
-  const space = new World(sprites,
-    new HeroAndWaterCollisionHandler(
-      new WaterAndWaterCollisionHandler(
-        new WaterAndFireCollisionHandler(
-          new FireAndFireCollisionHandler(
-            new HeroAndFireCollisionHandler(
-              new HeroAndWaterCollisionHandler(new HeroAndHeroCollisionHandler(null))))
-        ))
+  ];
+  const space = new World(
+    sprites,
+    new SameTypeFireCollisionHandler(
+      new SameTypeHeroCollisionHandler(
+        new SameTypeWaterCollisionHandler(
+          new HeroAndFireCollisionHandler(
+            new HeroAndWaterCollisionHandler(
+              new WaterAndFireCollisionHandler(null)
+            )
+          )
+        )
+      )
     )
   );
   space.start();

@@ -7,7 +7,7 @@ export abstract class CollisionHandler {
     this.next = next;
   }
 
-  abstract doHandling(space: World, sprite1: Sprite, sprite2: Sprite): void;
+  protected abstract doHandling(space: World, sprite1: Sprite, sprite2: Sprite): void;
 
   public collisionHandle(space: World, sprite1: Sprite, sprite2: Sprite) {
     if (this.match(sprite1, sprite2)) {
