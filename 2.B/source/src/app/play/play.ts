@@ -27,11 +27,12 @@ export abstract class Play {
     } catch (error) {}
   }
   public printPlayCards(player: Player, playCardPattern: CardPattern): void {
-    //   1. print("玩家 <玩家的名字> 打出了 <牌型名稱> <花色>[<數字>] <花色>[<數字>] <花色>[<數字>] ...")
-    //  - `<牌型名稱>` 為該牌型的中文名稱，可能為單張、對子、順子或是葫蘆。
-    // - `<牌型名稱>` 隨後接著的是牌型中包含的牌，以小到大依序由左至右排序。
-    let str = '';
-    // cards = playCardPattern.console.log();
+    // console.log(`玩家 ${player.name} 打出了 ${playCardPattern.name} <花色>[<數字>] <花色>[<數字>] <花色>[<數字>] ...`)
+    let str = `玩家 ${player.name} 打出了 ${playCardPattern.name} `;
+    playCardPattern.cards.forEach((card) => {
+      str += card.displayCard() + ' ';
+    });
+    console.log(str);
   }
   public abstract isSameCardPattern(
     cardPattern1: CardPattern,

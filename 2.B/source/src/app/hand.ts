@@ -3,7 +3,21 @@ import { Card } from './card/card';
 export class Hand {
   cards: Card[] = [];
 
-  printHandCards() {}
+  printHandCards() {
+    let indexStr = '';
+    this.cards.forEach((card, index) => {
+      indexStr = indexStr + index + '     ';
+      if (card.rank.text === '10') {
+        indexStr = indexStr + ' ';
+      }
+    });
+    console.log(indexStr);
+    let cardStr = '';
+    this.cards.forEach((card) => {
+      cardStr = cardStr + card.displayCard() + ' ';
+    });
+    console.log(cardStr);
+  }
 
   sortCards() {
     this.cards.sort((a, b) => {
