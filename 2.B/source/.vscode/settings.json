@@ -1,0 +1,82 @@
+{
+  "vscodeGitCommit.template": [
+    "{tag}: 第二章節/2.B/{scope}/{otherTarget}→{title}",
+    "",
+    "{message}"
+  ],
+  "vscodeGitCommit.variablesDisplayTitles": {
+    "scope": "Fill the pseudo of the person commiting with an @"
+  },
+  "vscodeGitCommit.variables": {
+    "tag": [
+      {
+        "label": "feat",
+        "detail": "新增/修改功能 (feature)"
+      },
+      {
+        "label": "fix",
+        "detail": "修補 bug (bug fix)"
+      },
+      {
+        "label": "docs",
+        "detail": "文件 (documentation)"
+      },
+      {
+        "label": "style",
+        "detail": "格式 (不影響程式碼運行的變動 white-space, formatting, missing semi colons, etc)"
+      },
+      {
+        "label": "refactor",
+        "detail": " 重構 (既不是新增功能，也不是修補 bug 的程式碼變動)。"
+      },
+      {
+        "label": "chore",
+        "detail": "增加或修改第三方套件(輔助工具)等 (maintain)"
+      },
+      {
+        "label": "deploy",
+        "detail": "部屬配置"
+      }
+    ],
+    "page": [
+      {
+        "label": "第二章節"
+      },
+      {
+        "label": "第一章節"
+      },
+      {
+        "label": "第三章節"
+      },
+      {
+        "label": "第四章節"
+      },
+
+    ],
+    "page2":[
+      {
+        "label": "2.B"
+      },
+    ],
+    "scope": [
+      {
+        "label": "vs code"
+      },
+      {
+        "label": "開發用套件"
+      },
+      {
+        "label": "環境變量"
+      },
+      {
+        "label": "其他"
+      },
+      {
+        "label": "開發環境設定"
+      },
+      {
+        "label": "vscode 設定"
+      }
+    ],
+  },
+}
