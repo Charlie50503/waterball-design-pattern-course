@@ -19,11 +19,4 @@ export class Single extends CardPattern {
     });
     return point;
   }
-
-  isMatch(cards: Card[]): boolean {
-    if (cards.length === this.cardSize) {
-      return true;
-    }
-    return false;
-  }
 }

@@ -1,6 +1,5 @@
 import { Card } from '../card/card';
 import { CardPatternType } from './card-pattern-type';
-import { CardPatternService } from './card-pattern.service';
 
 export abstract class CardPattern {
   public abstract name: string;
@@ -15,8 +14,6 @@ export abstract class CardPattern {
   }
 
   protected abstract setPoint(cards: Card[]): number;
-
-  public abstract isMatch(cards: Card[]): boolean;
 
   public isBiggerThan(target: CardPattern) {
     if (!this.isSameCardPatternType(target)) {

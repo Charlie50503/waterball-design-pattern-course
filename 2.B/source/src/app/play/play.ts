@@ -1,4 +1,4 @@
-import { CardPatternFormatterHandler } from '../card-pattern-formatter-handler/card-pattern-formatter-handler';
+import { CardPatternHandler } from '../card-pattern-handler/card-pattern-handler';
 import { CardPattern } from '../card-pattern/card-pattern';
 import { Card } from '../card/card';
 import { Player } from '../player/player';
@@ -7,9 +7,9 @@ export abstract class Play {
   // cards: Card[] = [];
   // playCardPattern: CardPattern;
   isFirstPlay: boolean = true;
-  cardPatternFormatterHandler: CardPatternFormatterHandler;
-  constructor(cardPatternFormatterHandler: CardPatternFormatterHandler) {
-    this.cardPatternFormatterHandler = cardPatternFormatterHandler;
+  cardPatternHandler: CardPatternHandler;
+  constructor(cardPatternHandler: CardPatternHandler) {
+    this.cardPatternHandler = cardPatternHandler;
   }
 
   isLegalPlay(topPlay: CardPattern, cards: Card[]) {
@@ -40,7 +40,7 @@ export abstract class Play {
   ): boolean;
   public abstract isContainsClubThreeInFirstPlay(cards: Card[]): boolean;
   public formPlayCardHandle(cards: Card[]) {
-    return this.cardPatternFormatterHandler.handle(cards);
+    return this.cardPatternHandler.handle(cards);
   }
   public pass() {
     if (this.isLealPass()) {

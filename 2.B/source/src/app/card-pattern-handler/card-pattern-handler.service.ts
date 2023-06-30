@@ -1,7 +1,7 @@
 import { Card } from '../card/card';
 import { Rank, RankText } from '../card/rank';
 
-export class CardPatternService {
+export class CardPatternHandlerService {
   countRanks(cards: Card[]) {
     const counts = new Map<RankText, number>();
     for (const card of cards) {

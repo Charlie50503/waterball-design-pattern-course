@@ -1,4 +1,4 @@
-import { CardPatternFormatterHandler } from '../card-pattern-formatter-handler/card-pattern-formatter-handler';
+import { CardPatternHandler } from '../card-pattern-handler/card-pattern-handler';
 import { AIPlay } from '../play/ai-play';
 import { Play } from '../play/play';
 import { Player } from './player';
@@ -8,9 +8,9 @@ export class AIPlayer extends Player {
 
   constructor(
     id: number,
-    cardPatternFormatterHandler: CardPatternFormatterHandler
+    cardPatternHandler: CardPatternHandler
   ) {
     super(id);
-    this.playAction = new AIPlay(cardPatternFormatterHandler);
+    this.playAction = new AIPlay(cardPatternHandler);
   }
 }
