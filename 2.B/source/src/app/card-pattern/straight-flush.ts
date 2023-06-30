@@ -4,8 +4,8 @@ import { CardPatternType } from './card-pattern-type';
 import { CardPatternService } from './card-pattern.service';
 
 export class Straight extends CardPattern {
-  name: string = '順子';
-  type = CardPatternType.STRAIGHT;
+  name: string = '同花順';
+  type = CardPatternType.STRAIGHT_FLUSH;
   cardSize = 5;
 
   constructor(private cardPatternService: CardPatternService, cards: Card[]) {
@@ -13,7 +13,7 @@ export class Straight extends CardPattern {
   }
 
   isMatch(sortedCards: Card[]): boolean {
-    return this.isStraight(sortedCards);
+    return this.isFlush(sortedCards) && this.isStraight(sortedCards);
   }
 
   override setPoint(sortedCards: Card[]): number {
@@ -21,6 +21,7 @@ export class Straight extends CardPattern {
     sortedCards.forEach((card) => {
       point = point + card.rank.value;
     });
+    point = point + sortedCards[0].suit.value;
     return point;
   }
 
@@ -34,6 +35,11 @@ export class Straight extends CardPattern {
         cardRanks
       )
     );
+  }
+
+  isFlush(sortedCards: Card[]) {
+    const firstSuit = sortedCards[0].suit.text;
+    return sortedCards.every((card) => card.suit.text === firstSuit);
   }
 }
 

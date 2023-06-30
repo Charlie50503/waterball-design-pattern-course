@@ -4,7 +4,7 @@ import { CardPatternType } from './card-pattern-type';
 
 export class Single extends CardPattern {
   name: string = '單張';
-  type = CardPatternType.Single;
+  type = CardPatternType.SINGLE;
   cardSize = 1;
 
   constructor(cards: Card[]) {

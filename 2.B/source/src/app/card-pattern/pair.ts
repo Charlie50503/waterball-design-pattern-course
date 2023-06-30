@@ -1,17 +1,14 @@
 import { Card } from '../card/card';
-import {
-  countDuplicates,
-  hasValueInDuplicatesCount,
-} from '../utils/utils-function';
 import { CardPattern } from './card-pattern';
 import { CardPatternType } from './card-pattern-type';
+import { CardPatternService } from './card-pattern.service';
 
 export class Pair extends CardPattern {
   name: string = '對子';
-  type = CardPatternType.Pair;
+  type = CardPatternType.PAIR;
   cardSize = 2;
 
-  constructor(cards: Card[]) {
+  constructor(private cardPatternService: CardPatternService, cards: Card[]) {
     super(cards);
   }
 
@@ -29,9 +26,9 @@ export class Pair extends CardPattern {
       return false;
     }
 
-    const duplicateCounts = countDuplicates(cards);
+    const counts = this.cardPatternService.countRanks(cards);
 
-    if (hasValueInDuplicatesCount(duplicateCounts, 2)) {
+    if (this.cardPatternService.hasValueInDuplicatesCount(counts, 2)) {
       return true;
     }
 

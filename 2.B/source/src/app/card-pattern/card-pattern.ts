@@ -1,5 +1,6 @@
 import { Card } from '../card/card';
 import { CardPatternType } from './card-pattern-type';
+import { CardPatternService } from './card-pattern.service';
 
 export abstract class CardPattern {
   public abstract name: string;
@@ -13,7 +14,6 @@ export abstract class CardPattern {
     this.point = this.setPoint(cards);
   }
 
-  // ! 這樣算有點偷吃步,如果卡牌類型的計算方式更複雜可能就不能這樣寫了
   protected abstract setPoint(cards: Card[]): number;
 
   public abstract isMatch(cards: Card[]): boolean;

@@ -1,18 +1,14 @@
 import { Card } from '../card/card';
-import {
-  countDuplicates,
-  findValueInDuplicatesCount,
-  hasValueInDuplicatesCount,
-} from '../utils/utils-function';
 import { CardPattern } from './card-pattern';
 import { CardPatternType } from './card-pattern-type';
+import { CardPatternService } from './card-pattern.service';
 
 export class FullHouse extends CardPattern {
   name: string = '葫蘆';
-  type = CardPatternType.FullHouse;
+  type = CardPatternType.FULL_HOUSE;
   cardSize = 5;
 
-  constructor(cards: Card[]) {
+  constructor(private cardPatternService: CardPatternService, cards: Card[]) {
     super(cards);
   }
 
@@ -29,12 +25,15 @@ export class FullHouse extends CardPattern {
     if (cards.length !== this.cardSize) {
       return false;
     }
+    return this.isFullHouse(cards);
+  }
 
-    const duplicateCounts = countDuplicates(cards);
-
+  // 判斷是否為葫蘆（三張同點數加一對）
+  isFullHouse(sortedCards: Card[]): boolean {
+    const counts = this.cardPatternService.countRanks(sortedCards);
     if (
-      hasValueInDuplicatesCount(duplicateCounts, 2) &&
-      hasValueInDuplicatesCount(duplicateCounts, 3)
+      this.cardPatternService.hasValueInDuplicatesCount(counts, 2) &&
+      this.cardPatternService.hasValueInDuplicatesCount(counts, 3)
     ) {
       return true;
     }
