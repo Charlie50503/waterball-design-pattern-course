@@ -6,7 +6,7 @@ export class Hand {
   printHandCards() {
     let indexStr = '';
     this.cards.forEach((card, index) => {
-      indexStr = indexStr + index + '     ';
+      indexStr = indexStr + index + '    ';
       if (card.rank.text === '10') {
         indexStr = indexStr + ' ';
       }
@@ -31,5 +31,9 @@ export class Hand {
 
   addCard(card: Card) {
     this.cards.push(card);
+  }
+
+  isHandCardEmpty(){
+    return this.cards.length === 0
   }
 }

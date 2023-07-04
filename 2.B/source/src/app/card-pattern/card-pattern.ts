@@ -2,9 +2,6 @@ import { Card } from '../card/card';
 import { CardPatternType } from './card-pattern-type';
 
 export abstract class CardPattern {
-  public abstract name: string;
-  public abstract type: CardPatternType;
-  protected abstract cardSize: number;
   private _cards!: Card[];
   public point: number;
 
@@ -15,24 +12,29 @@ export abstract class CardPattern {
 
   protected abstract setPoint(cards: Card[]): number;
 
-  public isBiggerThan(target: CardPattern) {
+  public isSmallThan(target: CardPattern) {
     if (!this.isSameCardPatternType(target)) {
       throw new Error('必須是同種類型的牌型');
     }
     return this.point <= target.point;
   }
 
-  private isSameCardPatternType(target: CardPattern) {
-    return this.type === target.type;
+  public isSameCardPatternType(target: CardPattern) {
+    return this.getType() === target.getType();
   }
 
   public get cards(): Card[] {
     return this._cards;
   }
   public set cards(value: Card[]) {
-    if (this.cardSize !== value.length) {
+    if (this.getCardSize() !== value.length) {
       throw Error('牌數不一樣');
     }
     this._cards = value;
   }
+
+  public abstract getName(): string;
+  protected abstract getCardSize(): number;
+
+  protected abstract getType(): CardPatternType;
 }

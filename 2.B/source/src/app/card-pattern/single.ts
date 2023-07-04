@@ -3,9 +3,6 @@ import { CardPattern } from './card-pattern';
 import { CardPatternType } from './card-pattern-type';
 
 export class Single extends CardPattern {
-  name: string = '單張';
-  type = CardPatternType.SINGLE;
-  cardSize = 1;
 
   constructor(cards: Card[]) {
     super(cards);
@@ -18,5 +15,17 @@ export class Single extends CardPattern {
       point = point + card.suit.value;
     });
     return point;
+  }
+
+  getCardSize(){
+    return 1
+  }
+
+  protected getType(): CardPatternType {
+    return CardPatternType.SINGLE;
+  }
+
+  public getName(): string {
+    return '單張';
   }
 }

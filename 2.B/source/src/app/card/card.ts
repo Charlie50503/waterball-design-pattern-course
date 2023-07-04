@@ -10,6 +10,6 @@ export class Card {
   }
 
   displayCard(){
-    console.log(`${this.suit.text}[${this.rank}]`);
+    return `${this.suit.text}[${this.rank.text}]`;
   }
 }

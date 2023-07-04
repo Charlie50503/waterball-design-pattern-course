@@ -3,10 +3,6 @@ import { CardPattern } from './card-pattern';
 import { CardPatternType } from './card-pattern-type';
 
 export class Straight extends CardPattern {
-  name: string = '順子';
-  type = CardPatternType.STRAIGHT;
-  cardSize = 5;
-
   constructor(cards: Card[]) {
     super(cards);
   }
@@ -17,5 +13,17 @@ export class Straight extends CardPattern {
       point = point + card.rank.value;
     });
     return point;
+  }
+
+  protected getCardSize() {
+    return 5;
+  }
+
+  protected getType(): CardPatternType {
+    return CardPatternType.STRAIGHT;
+  }
+
+  public getName(): string {
+    return '順子';
   }
 }

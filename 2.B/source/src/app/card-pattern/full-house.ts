@@ -3,10 +3,6 @@ import { CardPattern } from './card-pattern';
 import { CardPatternType } from './card-pattern-type';
 
 export class FullHouse extends CardPattern {
-  name: string = '葫蘆';
-  type = CardPatternType.FULL_HOUSE;
-  cardSize = 5;
-
   constructor(cards: Card[]) {
     super(cards);
   }
@@ -20,4 +16,15 @@ export class FullHouse extends CardPattern {
     return point;
   }
 
+  getCardSize(){
+    return 5
+  }
+
+  protected getType(): CardPatternType {
+      return CardPatternType.FULL_HOUSE;
+  }
+
+  public getName(): string {
+      return '葫蘆';
+  }
 }

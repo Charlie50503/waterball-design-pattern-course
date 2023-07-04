@@ -1,5 +1,5 @@
 import { CardPattern } from '../card-pattern/card-pattern';
-import { FullHouse } from '../card-pattern/full-house';
+import { StraightFlush } from '../card-pattern/straight-flush';
 import { Card } from '../card/card';
 import { CardPatternHandler } from './card-pattern-handler';
 import { CardPatternHandlerService } from './card-pattern-handler.service';
@@ -17,7 +17,7 @@ export class StraightFlushHandler extends CardPatternHandler {
   }
 
   doHandle(sortedCards: Card[]): CardPattern {
-    return new FullHouse(sortedCards);
+    return new StraightFlush(sortedCards);
   }
 
   isMatch(sortedCards: Card[]): boolean {

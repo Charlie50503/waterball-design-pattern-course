@@ -2,11 +2,7 @@ import { Card } from '../card/card';
 import { CardPattern } from './card-pattern';
 import { CardPatternType } from './card-pattern-type';
 
-export class Straight extends CardPattern {
-  name: string = '同花順';
-  type = CardPatternType.STRAIGHT_FLUSH;
-  cardSize = 5;
-
+export class StraightFlush extends CardPattern {
   constructor(cards: Card[]) {
     super(cards);
   }
@@ -18,5 +14,17 @@ export class Straight extends CardPattern {
     });
     point = point + sortedCards[0].suit.value;
     return point;
+  }
+
+  protected getCardSize(){
+    return 5
+  }
+
+  protected getType(): CardPatternType {
+    return CardPatternType.STRAIGHT_FLUSH;
+  }
+
+  public getName(): string {
+    return '同花順';
   }
 }

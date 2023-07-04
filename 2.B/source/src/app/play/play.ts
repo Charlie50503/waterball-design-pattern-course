@@ -2,60 +2,128 @@ import { CardPatternHandler } from '../card-pattern-handler/card-pattern-handler
 import { CardPattern } from '../card-pattern/card-pattern';
 import { Card } from '../card/card';
 import { Player } from '../player/player';
+import { Round } from '../round';
 
 export abstract class Play {
-  // cards: Card[] = [];
-  // playCardPattern: CardPattern;
-  isFirstPlay: boolean = true;
   cardPatternHandler: CardPatternHandler;
   constructor(cardPatternHandler: CardPatternHandler) {
     this.cardPatternHandler = cardPatternHandler;
   }
 
-  isLegalPlay(topPlay: CardPattern, cards: Card[]) {
+  public isLegalPlay(topPlay: CardPattern | null, cards: Card[],isFirstPlay:boolean) {
     try {
-      const playCardPattern = this.formPlayCardHandle(cards);
+      const playCardPattern = this.cardPatternHandler.handle(cards);
 
-      if (this.isSameCardPattern(topPlay, playCardPattern)) {
+      if (topPlay && !topPlay.isSameCardPatternType(playCardPattern)) {
         throw Error('所出牌型不相同');
       }
 
-      if (!this.isFirstPlay && !this.isContainsClubThreeInFirstPlay(cards)) {
+      if (topPlay && !topPlay.isSmallThan(playCardPattern)) {
+        throw Error('所出牌型小於頂牌');
+      }
+
+      if (isFirstPlay && !this.isContainsClubThreeInFirstPlay(cards)) {
         throw Error('第一次出牌必須包含梅花3');
       }
       return true;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
   public printPlayCards(player: Player, playCardPattern: CardPattern): void {
     // console.log(`玩家 ${player.name} 打出了 ${playCardPattern.name} <花色>[<數字>] <花色>[<數字>] <花色>[<數字>] ...`)
-    let str = `玩家 ${player.name} 打出了 ${playCardPattern.name} `;
+    let str = `玩家 ${player.name} 打出了 ${playCardPattern.getName()} `;
     playCardPattern.cards.forEach((card) => {
       str += card.displayCard() + ' ';
     });
     console.log(str);
   }
-  public abstract isSameCardPattern(
-    cardPattern1: CardPattern,
-    cardPattern2: CardPattern
-  ): boolean;
-  public abstract isContainsClubThreeInFirstPlay(cards: Card[]): boolean;
-  public formPlayCardHandle(cards: Card[]) {
-    return this.cardPatternHandler.handle(cards);
+
+  public printPlayPass(player:Player){
+    console.log(`玩家 ${player.name} PASS`);
   }
-  public pass() {
-    if (this.isLealPass()) {
+
+  public isContainsClubThreeInFirstPlay(cards: Card[]) {
+    return cards.some((card) => {
+      return card.rank.text === '3' && card.suit.text === 'C';
+    });
+  }
+
+  public pass(round: Round) {
+    if (this.isLealPass(round)) {
       return true;
     } else {
       return false;
     }
   }
-  public isLealPass(): boolean {
-    // 判斷玩家是否在新的回合中的第一輪 PASS
-    // 是-不合法
-    // 否-合法
-    // TODO 尚未實現
-    return true;
+  public isLealPass(round: Round): boolean {
+    if (!round.isFirstPlayOfRound()) {
+      return true;
+    }
+    return false;
   }
-  public abstract playHook(): void;
-  public play(): void {}
+  public abstract playHook(
+    player: Player,
+    round: Round,
+    isFirstPlay:boolean
+  ): Promise<CardPattern | PlayResultStatus.PASS>;
+  public async play(
+    player: Player,
+    round: Round,
+    isFirstPlay:boolean
+  ): Promise<PlayResult> {
+    // 印出玩家手牌
+    player.hand.printHandCards();
+    const playedCardPattern = await this.playHookHandler(
+      player,
+      round,
+      isFirstPlay
+    );
+
+    if (player.hand.isHandCardEmpty()) {
+      return new PlayResult(PlayResultStatus.END);
+    }
+    if (playedCardPattern === PlayResultStatus.PASS) {
+      this.printPlayPass(player);
+      return new PlayResult(PlayResultStatus.PASS);
+    } else {
+      this.printPlayCards(player, playedCardPattern);
+      return new PlayResult(PlayResultStatus.CONTINUE, playedCardPattern);
+    }
+  }
+
+  public async playHookHandler(
+    player: Player,
+    round: Round,
+    isFirstPlay:boolean
+  ): Promise<CardPattern | PlayResultStatus.PASS> {
+    let playedCardPattern;
+    try {
+      playedCardPattern = await this.playHook(player, round, isFirstPlay);
+    } catch (error) {
+      console.log(error);
+      return this.playHookHandler(player, round, isFirstPlay);
+    }
+    return playedCardPattern;
+  }
+
+  formCardPattern(cards: Card[]) {
+    return this.cardPatternHandler.handle(cards);
+  }
+}
+
+export class PlayResult {
+  type: PlayResultStatus;
+  playedCardPattern?: CardPattern;
+
+  constructor(type: PlayResultStatus, playedCardPattern?: CardPattern) {
+    this.type = type;
+    this.playedCardPattern = playedCardPattern;
+  }
+}
+
+export enum PlayResultStatus {
+  PASS = 'PASS',
+  CONTINUE = 'CONTINUE',
+  END = 'END',
 }

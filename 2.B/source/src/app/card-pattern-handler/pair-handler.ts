@@ -1,5 +1,6 @@
 import { CardPattern } from '../card-pattern/card-pattern';
 import { FullHouse } from '../card-pattern/full-house';
+import { Pair } from '../card-pattern/pair';
 import { Card } from '../card/card';
 import { CardPatternHandler } from './card-pattern-handler';
 import { CardPatternHandlerService } from './card-pattern-handler.service';
@@ -17,7 +18,7 @@ export class PairHandler extends CardPatternHandler {
   }
 
   doHandle(cards: Card[]): CardPattern {
-    return new FullHouse(cards);
+    return new Pair(cards);
   }
 
   isMatch(cards: Card[]): boolean {
