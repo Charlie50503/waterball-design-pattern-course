@@ -1,3 +1,4 @@
+import { CardPattern } from './card-pattern/card-pattern';
 import { Card } from './card/card';
 
 export class Hand {
@@ -34,5 +35,14 @@ export class Hand {
 
   isHandCardEmpty(){
     return this.cards.length === 0
+  }
+
+  filterCards(cardPattern:CardPattern){
+    this.cards.filter(card=>{
+      return
+    })
+    this.cards = this.cards.filter(card =>
+      !cardPattern.cards.some(c => c.rank.value === card.rank.value && c.suit.value === card.suit.value)
+    );
   }
 }
