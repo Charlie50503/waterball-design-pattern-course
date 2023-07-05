@@ -11,7 +11,7 @@ export class HumanPlay extends Play {
     isFirstPlay:boolean
   ): Promise<CardPattern | PlayResultStatus.PASS> {
     return new Promise((resolve, reject) => {
-      rl.question('輸入遊戲行為:\n', (answer) => {
+      rl.question('輸入遊戲行為: ', (answer) => {
         if (answer === '-1') {
           if (this.isLealPass(round)) {
              resolve(PlayResultStatus.PASS);
