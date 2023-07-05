@@ -21,11 +21,10 @@ export class Hand {
 
   sortCards() {
     this.cards.sort((a, b) => {
-      if (a.suit.value === b.suit.value) {
-        return b.rank.value - a.rank.value;
-      } else {
-        return b.suit.value - a.suit.value;
+      if (a.rank.value !== b.rank.value) {
+        return a.rank.value - b.rank.value;
       }
+      return a.suit.value - b.suit.value;
     });
   }
 
