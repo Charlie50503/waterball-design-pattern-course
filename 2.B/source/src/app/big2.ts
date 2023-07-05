@@ -1,4 +1,3 @@
-import { CardPattern } from './card-pattern/card-pattern';
 import { Card } from './card/card';
 import { Deck } from './deck';
 import rl from './helper/helper';
@@ -12,6 +11,8 @@ export class Big2 {
   deck!: Deck;
   isFirstPlay = true;
   isGameOver = false;
+
+  passCount: number = 0;
 
   constructor(
     players:Player[]
@@ -29,7 +30,7 @@ export class Big2 {
     await this.initial();
 
     await this.firstRound();
-    this.resetAllPassed();
+
     if (!this.getWinner()) {
       await this.afterFirstRound();
     }
@@ -77,11 +78,12 @@ export class Big2 {
     await this.takeFirstTurn(round);
     while (!this.getWinner() && !this.isGoNextRound()) {
       const currentPlayer = this.findCurrentPlayer(round);
-      await this.beforeTurn(currentPlayer, round);
       await this.takeTurn(currentPlayer, round);
     }
     if (this.getWinner()) {
       this.isGameOver = true;
+    }else {
+      this.passCount=0;
     }
   }
 
@@ -90,19 +92,18 @@ export class Big2 {
     const round = new Round();
     while (!this.getWinner() && !this.isGoNextRound()) {
       const currentPlayer = this.findCurrentPlayer(round);
-      await this.beforeTurn(currentPlayer, round);
       await this.takeTurn(currentPlayer, round);
     }
     if (this.getWinner()) {
       this.isGameOver = true;
     } else {
-      this.resetAllPassed();
+      this.passCount=0;
       return this.afterFirstRound();
     }
   }
 
   isGoNextRound(){
-    return this.players.filter(player=>player.isPass===true).length===3
+    return this.passCount>=3
   }
 
   async takeFirstTurn(round: Round) {
@@ -125,19 +126,14 @@ export class Big2 {
     if (playedResult.type === PlayResultStatus.CONTINUE) {
       round.topPlay = playedResult.playedCardPattern!;
       this.topPlayer = currentPlayer;
+      this.passCount = 0;
     } else if (playedResult.type === PlayResultStatus.END) {
     } else if (playedResult.type === PlayResultStatus.PASS) {
-      currentPlayer.pass();
+      this.passCount += 1;
     } else {
       throw Error('不符合遊戲規則');
     }
     round.prevPlayer = currentPlayer;
-  }
-
-  beforeTurn(currentPlayer:Player, round: Round){
-    if(currentPlayer.isPassed()){
-      currentPlayer.resetPass()
-    }
   }
 
   findC3Player(): Player {
@@ -168,9 +164,4 @@ export class Big2 {
     return (round.prevPlayer!.id + 1) % this.players.length
   }
 
-  resetAllPassed(){
-    this.players.forEach(player=>{
-      player.resetPass();
-    })
-  }
 }

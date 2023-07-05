@@ -9,8 +9,6 @@ export abstract class Player {
   public playAction: Play;
   private _id: number;
 
-  isPass = false;
-
   constructor(id: number, playAction: Play) {
     this._id = id;
     this.playAction = playAction;
@@ -42,18 +40,5 @@ export abstract class Player {
       throw Error('id must be between 0 and 4');
     }
     this._id = value;
-  }
-
-
-  public resetPass(){
-    this.isPass=false;
-  }
-
-  public isPassed(){
-    return this.isPass;
-  }
-
-  public pass(){
-    this.isPass=true;
   }
 }
