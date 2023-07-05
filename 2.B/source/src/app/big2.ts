@@ -27,10 +27,10 @@ export class Big2 {
 
   async start() {
     await this.initial();
-    console.log("initial");
 
     await this.firstRound();
-    if (!this.isGameOver) {
+    this.resetAllPassed();
+    if (!this.getWinner()) {
       await this.afterFirstRound();
     }
     await this.endOfGame();
@@ -38,6 +38,9 @@ export class Big2 {
 
   endOfGame() {
     const winner = this.getWinner();
+    if(!winner){
+      throw Error("沒找到贏家")
+    }
     console.log(`The winner is ${winner.name}`);
     // rl.close();
   }
@@ -63,7 +66,7 @@ export class Big2 {
       (player) => player.hand.cards.length === 0
     );
     if (!winner) {
-      throw Error('沒找到贏家');
+      return null;
     }
     return winner;
   }
@@ -72,10 +75,12 @@ export class Big2 {
     console.log('新的回合開始了。');
     const round = new Round();
     await this.takeFirstTurn(round);
-    while (!round.isEndOfRound()) {
-      await this.takeTurn(round);
+    while (!this.getWinner() && !this.isGoNextRound()) {
+      const currentPlayer = this.findCurrentPlayer(round);
+      await this.beforeTurn(currentPlayer, round);
+      await this.takeTurn(currentPlayer, round);
     }
-    if (round.isGameOver) {
+    if (this.getWinner()) {
       this.isGameOver = true;
     }
   }
@@ -83,14 +88,21 @@ export class Big2 {
   async afterFirstRound(): Promise<void> {
     console.log('新的回合開始了。');
     const round = new Round();
-    while (!round.isEndOfRound()) {
-      await this.takeTurn(round);
+    while (!this.getWinner() && !this.isGoNextRound()) {
+      const currentPlayer = this.findCurrentPlayer(round);
+      await this.beforeTurn(currentPlayer, round);
+      await this.takeTurn(currentPlayer, round);
     }
-    if (round.isGameOver) {
+    if (this.getWinner()) {
       this.isGameOver = true;
     } else {
+      this.resetAllPassed();
       return this.afterFirstRound();
     }
+  }
+
+  isGoNextRound(){
+    return this.players.filter(player=>player.isPass===true).length===3
   }
 
   async takeFirstTurn(round: Round) {
@@ -101,14 +113,13 @@ export class Big2 {
       round.topPlay = playedResult.playedCardPattern!;
       this.topPlayer = hasC3Player;
       this.isFirstPlay = false;
+      round.prevPlayer = hasC3Player;
     } else {
       throw Error('動作不符合遊戲規則');
     }
   }
 
-  async takeTurn(round: Round): Promise<void> {
-    const currentPlayerId = this.findCurrentPlayerId(round)();
-    const currentPlayer = this.players.find(player=>player.id===currentPlayerId)!;
+  async takeTurn(currentPlayer:Player, round: Round): Promise<void> {
     console.log(`輪到${currentPlayer.name}了`);
     const playedResult = await currentPlayer.play(round,this.isFirstPlay);
     if (playedResult.type === PlayResultStatus.CONTINUE) {
@@ -116,9 +127,16 @@ export class Big2 {
       this.topPlayer = currentPlayer;
     } else if (playedResult.type === PlayResultStatus.END) {
     } else if (playedResult.type === PlayResultStatus.PASS) {
-      round.setPassedPlayer(currentPlayer);
+      currentPlayer.pass();
     } else {
       throw Error('不符合遊戲規則');
+    }
+    round.prevPlayer = currentPlayer;
+  }
+
+  beforeTurn(currentPlayer:Player, round: Round){
+    if(currentPlayer.isPassed()){
+      currentPlayer.resetPass()
     }
   }
 
@@ -134,18 +152,25 @@ export class Big2 {
     });
   }
 
-  findCurrentPlayerId(round:Round) {
-    let nextPlayerId = (this.topPlayer.id + 1) % this.players.length;
+  findCurrentPlayer(round:Round){
+    if(round.topPlay===null){
+      return this.topPlayer;
+    }
 
-    const passedPlayerIdSet = new Set(
-      round.passedPlayers.map((player) => player.id)
-    );
-    return function nextPlayer(): number {
-      if (passedPlayerIdSet.has(nextPlayerId)) {
-        nextPlayerId++;
-        return nextPlayer();
-      }
-      return nextPlayerId;
-    };
+    const currentPlayerId = this.findCurrentPlayerId(round);
+    const currentPlayer = this.players.find(player=>player.id===currentPlayerId)!;
+
+    return currentPlayer;
+  }
+
+
+  findCurrentPlayerId(round:Round) {
+    return (round.prevPlayer!.id + 1) % this.players.length
+  }
+
+  resetAllPassed(){
+    this.players.forEach(player=>{
+      player.resetPass();
+    })
   }
 }

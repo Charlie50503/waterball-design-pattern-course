@@ -40,7 +40,7 @@ export abstract class Play {
   }
 
   public printPlayPass(player:Player){
-    console.log(`玩家 ${player.name} PASS`);
+    console.log(`玩家 ${player.name} PASS.`);
   }
 
   public isContainsClubThreeInFirstPlay(cards: Card[]) {
@@ -49,13 +49,6 @@ export abstract class Play {
     });
   }
 
-  public pass(round: Round) {
-    if (this.isLealPass(round)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
   public isLealPass(round: Round): boolean {
     if (!round.isFirstPlayOfRound()) {
       return true;
@@ -88,6 +81,7 @@ export abstract class Play {
       return new PlayResult(PlayResultStatus.PASS);
     } else {
       this.printPlayCards(player, playedCardPattern);
+      player.hand.filterCards(playedCardPattern);
       return new PlayResult(PlayResultStatus.CONTINUE, playedCardPattern);
     }
   }
