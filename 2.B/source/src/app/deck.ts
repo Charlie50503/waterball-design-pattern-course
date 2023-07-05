@@ -1,6 +1,7 @@
 import { Card } from './card/card';
 import { Rank, ranks } from './card/rank';
 import { Suit, suits } from './card/suit';
+import { Cards } from '../test-case/deck.test-case-6-no-error-play2';
 export class Deck {
   cards: Card[] = [];
 
@@ -10,8 +11,9 @@ export class Deck {
         this.cards.push(new Card(rank, suit));
       });
     });
-
     this.cards = this.shuffle(this.cards);
+    // For Test Case
+    // this.cards = Cards;
   }
 
   shuffle(cards: Card[]) {
