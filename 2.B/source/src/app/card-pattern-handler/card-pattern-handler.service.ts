@@ -23,6 +23,14 @@ export class CardPatternHandlerService {
       return false;
     }
 
-    return arr1.every((value, index) => value === arr2[index]);
+    const sortedArr1 = arr1.slice().sort();
+    const sortedArr2 = arr2.slice().sort();
+
+    return sortedArr1.every((value, index) => value === sortedArr2[index]);
+  }
+
+  isNotDuplicatesNumber(cardRanks:string[]){
+    let cardRandSet = new Set(cardRanks);
+    return cardRandSet.size === cardRanks.length;
   }
 }
