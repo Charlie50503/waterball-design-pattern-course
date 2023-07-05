@@ -15,15 +15,17 @@ export abstract class Play {
       const playCardPattern = this.cardPatternHandler.handle(cards);
 
       if (topPlay && !topPlay.isSameCardPatternType(playCardPattern)) {
-        throw Error('所出牌型不相同');
+        throw Error('此牌型不合法，請再嘗試一次。');
       }
 
       if (topPlay && !topPlay.isSmallThan(playCardPattern)) {
-        throw Error('所出牌型小於頂牌');
+        throw Error('此牌型不合法，請再嘗試一次。');
+        // throw Error('所出牌型小於頂牌');
       }
 
       if (isFirstPlay && !this.isContainsClubThreeInFirstPlay(cards)) {
-        throw Error('第一次出牌必須包含梅花3');
+        throw Error('此牌型不合法，請再嘗試一次。');
+        // throw Error('第一次出牌必須包含梅花3');
       }
       return true;
     } catch (error) {

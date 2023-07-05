@@ -42,8 +42,8 @@ export class Big2 {
     if(!winner){
       throw Error("沒找到贏家")
     }
-    console.log(`The winner is ${winner.name}`);
-    // rl.close();
+    console.log(`遊戲結束，遊戲的勝利者為 ${winner.name}`);
+    rl.close();
   }
 
   async namePlayers() {
