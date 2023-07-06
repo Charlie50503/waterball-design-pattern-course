@@ -20,7 +20,7 @@ export class StraightFlush extends CardPattern {
     return 5
   }
 
-  protected getType(): CardPatternType {
+  public getType(): CardPatternType {
     return CardPatternType.STRAIGHT_FLUSH;
   }
 

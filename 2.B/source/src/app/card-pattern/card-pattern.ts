@@ -36,5 +36,5 @@ export abstract class CardPattern {
   public abstract getName(): string;
   protected abstract getCardSize(): number;
 
-  protected abstract getType(): CardPatternType;
+  public abstract getType(): CardPatternType;
 }

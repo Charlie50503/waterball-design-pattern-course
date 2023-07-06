@@ -40,7 +40,7 @@ export class StraightHandler extends CardPatternHandler {
   }
 }
 
-const straightAllPatterns = [
+export const straightAllPatterns = [
   {
     combination: ['A', '2', '3', '4', '5'],
     point: 1,

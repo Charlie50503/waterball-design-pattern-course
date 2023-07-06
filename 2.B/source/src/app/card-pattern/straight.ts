@@ -19,7 +19,7 @@ export class Straight extends CardPattern {
     return 5;
   }
 
-  protected getType(): CardPatternType {
+  public getType(): CardPatternType {
     return CardPatternType.STRAIGHT;
   }
 

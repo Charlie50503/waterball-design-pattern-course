@@ -20,7 +20,7 @@ export class Pair extends CardPattern {
     return 2;
   }
 
-  protected getType(): CardPatternType {
+  public getType(): CardPatternType {
     return CardPatternType.PAIR;
   }
 

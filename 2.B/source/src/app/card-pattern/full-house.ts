@@ -20,7 +20,7 @@ export class FullHouse extends CardPattern {
     return 5
   }
 
-  protected getType(): CardPatternType {
+  public getType(): CardPatternType {
       return CardPatternType.FULL_HOUSE;
   }
 

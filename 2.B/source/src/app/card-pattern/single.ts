@@ -21,7 +21,7 @@ export class Single extends CardPattern {
     return 1
   }
 
-  protected getType(): CardPatternType {
+  public getType(): CardPatternType {
     return CardPatternType.SINGLE;
   }
 
