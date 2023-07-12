@@ -18,35 +18,6 @@ export abstract class BaseCombinations<T extends CardPattern> {
     });
   }
 
-  // getMaxCombination(): T | null {
-  //   let point = 0;
-  //   let maxPointCombination: T | null = null;
-  //   this.combinations.forEach((combination, index) => {
-  //     if (point < combination.point) {
-  //       point = combination.point;
-  //       index = index;
-  //       maxPointCombination = combination;
-  //     }
-  //   });
-  //   return maxPointCombination;
-  // }
-  // getMinCombination(): T | null {
-  //   let point = Infinity;
-  //   let maxPointCombination: T | null = null;
-  //   this.combinations.forEach((combination, index) => {
-  //     if (point > combination.point) {
-  //       point = combination.point;
-  //       index = index;
-  //       maxPointCombination = combination;
-  //     }
-  //   });
-  //   return maxPointCombination;
-  // }
-
-  // addCombination(combination: T) {
-  //   this.combinations.push(combination);
-  // }
-
   abstract findAllCombinations(cards: Card[]): T[];
 
   isCombinationsEmpty(): boolean {

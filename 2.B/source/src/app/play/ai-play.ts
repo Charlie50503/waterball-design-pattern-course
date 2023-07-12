@@ -19,6 +19,7 @@ export class AIPlay extends Play {
     round: Round,
     isFirstPlay: boolean
   ): Promise<CardPattern | PlayResultStatus.PASS> {
+    // 列舉AI玩家目前手上所有合法可出的牌
     const singleCombinations = new SingleCombinations();
     const pairCombinations = new PairCombinations();
     const straightCombinations = new StraightCombinations();
@@ -33,7 +34,8 @@ export class AIPlay extends Play {
       straightCombinations.findAllCombinations(player.hand.cards);
     fullHouseCombinations.combinations =
       fullHouseCombinations.findAllCombinations(player.hand.cards);
-
+    // 判斷是否為遊戲的第一次出牌
+    // 如果是第一次出牌，需要從手中找出包含黑桃三的合法牌型。
     if (isFirstPlay) {
       singleCombinations.combinations =
         singleCombinations.filterHasClubThreeCombinations();
@@ -62,6 +64,11 @@ export class AIPlay extends Play {
       );
 
       return Promise.resolve(selectedCardPattern!);
+    // 如果不是第一次出牌，檢查桌面上最後出的牌
+    // 將桌面上最後出的牌的牌型與玩家手中的牌進行比較，過濾出比桌面上的牌還大的牌型
+    // 根據目前AI過濾後可以出的牌型隨機出牌
+    // 如果過濾後無牌可出則PASS
+    // 將AI出過的手牌移除
     } else if (round.topPlay !== null) {
       const cardPatternTypes: CardPatternType[] = this.findHadCardPattern(
         singleCombinations,

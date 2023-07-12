@@ -9,9 +9,79 @@ import { FullHouseHandler } from './app/card-pattern-handler/full-house-handler'
 import { PairHandler } from './app/card-pattern-handler/pair-handler';
 import { SingleHandler } from './app/card-pattern-handler/signle-handler';
 
+// async function main() {
+//   const big2 = new Big2([
+//     new HumanPlayer(
+//       0,
+//       new StraightFlushHandler(
+//         new StraightHandler(
+//           new FullHouseHandler(
+//             new PairHandler(
+//               new SingleHandler(null),
+//               new CardPatternHandlerService()
+//             ),
+//             new CardPatternHandlerService()
+//           ),
+//           new CardPatternHandlerService()
+//         ),
+//         new CardPatternHandlerService()
+//       )
+//     ),
+//     new HumanPlayer(
+//       1,
+//       new StraightFlushHandler(
+//         new StraightHandler(
+//           new FullHouseHandler(
+//             new PairHandler(
+//               new SingleHandler(null),
+//               new CardPatternHandlerService()
+//             ),
+//             new CardPatternHandlerService()
+//           ),
+//           new CardPatternHandlerService()
+//         ),
+//         new CardPatternHandlerService()
+//       )
+//     ),
+//     new HumanPlayer(
+//       2,
+//       new StraightFlushHandler(
+//         new StraightHandler(
+//           new FullHouseHandler(
+//             new PairHandler(
+//               new SingleHandler(null),
+//               new CardPatternHandlerService()
+//             ),
+//             new CardPatternHandlerService()
+//           ),
+//           new CardPatternHandlerService()
+//         ),
+//         new CardPatternHandlerService()
+//       )
+//     ),
+//     new HumanPlayer(
+//       3,
+//       new StraightFlushHandler(
+//         new StraightHandler(
+//           new FullHouseHandler(
+//             new PairHandler(
+//               new SingleHandler(null),
+//               new CardPatternHandlerService()
+//             ),
+//             new CardPatternHandlerService()
+//           ),
+//           new CardPatternHandlerService()
+//         ),
+//         new CardPatternHandlerService()
+//       )
+//     ),
+//   ]);
+//   await big2.start();
+// }
+
 async function main() {
   const big2 = new Big2([
-    new HumanPlayer(
+    new AIPlayer(
       0,
       new StraightFlushHandler(
         new StraightHandler(
@@ -27,7 +97,7 @@ async function main() {
         new CardPatternHandlerService()
       )
     ),
-    new HumanPlayer(
+    new AIPlayer(
       1,
       new StraightFlushHandler(
         new StraightHandler(
@@ -43,7 +113,7 @@ async function main() {
         new CardPatternHandlerService()
       )
     ),
-    new HumanPlayer(
+    new AIPlayer(
       2,
       new StraightFlushHandler(
         new StraightHandler(
@@ -59,7 +129,7 @@ async function main() {
         new CardPatternHandlerService()
       )
     ),
-    new HumanPlayer(
+    new AIPlayer(
       3,
       new StraightFlushHandler(
         new StraightHandler(
