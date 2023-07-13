@@ -21,6 +21,10 @@ export class Controller {
   }
 
   press(button: number) {
-    this._commands[button].execute();
+    if(button >= 0 && button < this._commands.length) {
+      this._commands[button].execute();
+    }else{
+      console.log('輸入錯誤');
+    }
   }
 }
