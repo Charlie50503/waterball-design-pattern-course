@@ -1,9 +1,10 @@
 import { AirConditioner } from "./app/airConditioner";
 import { Controller } from "./app/controller";
 import { Fan } from "./app/fan";
+import rl from "./app/helper/readline";
 import { Television } from "./app/television";
 
-function main(){
+async function main(){
   const ac = new AirConditioner();
   const fan = new Fan();
   const tv = new Television();
@@ -13,12 +14,11 @@ function main(){
     tv
   );
 
-  controller.press0();
-  controller.press1();
-  controller.press2();
-  controller.press3();
-  controller.press4();
-  controller.press5();
+  while(true){
+    await controller.handlePress();
+  }
 }
+
+
 
 main();
