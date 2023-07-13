@@ -130,4 +130,6 @@ out
 .pnp.*
 
 # Compiled output
-/dist/
+*/dist/
+
+.js
