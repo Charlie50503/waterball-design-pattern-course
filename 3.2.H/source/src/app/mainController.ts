@@ -110,8 +110,11 @@ export class MainController {
     filter((answer) => /^[a-zA-Z]$/.test(answer))
   );
 
-  constructor(commands: Command[]) {
-    this._commands = commands;
+  constructor() {
+  }
+
+  public setCommand(command:Command){
+    this._commands.push(command);
   }
 
   public start() {
