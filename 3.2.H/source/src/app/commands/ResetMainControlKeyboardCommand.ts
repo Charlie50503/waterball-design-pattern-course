@@ -1,17 +1,20 @@
-import { Command } from "./baseCommand";
+import { MainController } from '../mainController';
+import { Command } from './baseCommand';
 
 export class MainControlKeyboardResetCommand extends Command {
-
+  mainController: MainController;
+  constructor(mainController: MainController) {
+    super();
+    this.mainController = mainController;
+  }
 
   getName(): string {
-    return 'ResetMainControlKeyboard'
+    return 'ResetMainControlKeyboard';
   }
 
   execute(): void {
-
+    this.mainController.resetShortKey();
   }
 
-  undo(): void {
-
-  }
+  undo(): void {}
 }
