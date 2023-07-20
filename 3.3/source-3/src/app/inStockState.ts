@@ -3,14 +3,18 @@ import { State } from './state';
 import { TicketSystem } from './ticketSystem';
 
 export class InStockState extends State {
-  constructor(ticketSystem: TicketSystem, tickets: number) {
+  constructor(ticketSystem: TicketSystem, tickets?: number) {
     super(ticketSystem);
-    this.ticketSystem.setTickets(tickets);
+    if(tickets){
+
+      this.ticketSystem.setTickets(tickets);
+    }
   }
 
   public insertCoin(): void {
     this.ticketSystem.setTotal(this.ticketSystem.getTotal() + 1);
     if (this.ticketSystem.getTotal() === TicketSystem.PRICE) {
+      this.ticketSystem.updateCoinsDisplay();
       this.ticketSystem.enterState(new EnoughCoinsState(this.ticketSystem));
       this.ticketSystem.turnLight(true);
     } else if (this.ticketSystem.getTotal() < TicketSystem.PRICE) {
@@ -32,4 +36,8 @@ export class InStockState extends State {
       console.log('[ERROR] 沒有票可以賣');
     }
   }
+  
+  public getName(): string {
+    return "In Stock";
+}
 }

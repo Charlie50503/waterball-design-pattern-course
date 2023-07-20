@@ -20,7 +20,7 @@ export class SoldOutState extends State {
     this.ticketSystem.enterState(
       new InStockState(
         this.ticketSystem,
-        this.ticketSystem.getTotal() + tickets
+        this.ticketSystem.getTickets() + tickets
       )
     );
   }
@@ -30,5 +30,9 @@ export class SoldOutState extends State {
       this.ticketSystem.spitCoins(this.ticketSystem.getTotal());
     }
     this.ticketSystem.setTickets(0);
+  }
+
+  public getName(): string {
+      return "Sold Out";
   }
 }

@@ -1,5 +1,6 @@
 import { TicketSystem } from './ticketSystem';
 export abstract class State {
+  
   ticketSystem: TicketSystem;
 
   constructor(ticketSystem: TicketSystem) {
@@ -23,4 +24,5 @@ export abstract class State {
     this.ticketSystem.setTickets(this.ticketSystem.getTickets() + tickets);
   }
 
+  public abstract getName(): string
 }

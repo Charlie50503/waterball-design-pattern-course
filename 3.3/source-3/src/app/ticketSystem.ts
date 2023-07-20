@@ -1,3 +1,5 @@
+import { InStockState } from './inStockState';
+import { SoldOutState } from './soldOutState';
 import { State } from './state';
 export enum IState {
   IN_STOCK,
@@ -6,7 +8,7 @@ export enum IState {
 }
 
 export class TicketSystem {
-  private _state: State;
+  private _state!: State;
   private _total: number = 0;
   public static readonly PRICE: number = 3;
   private _lightOn: boolean = false;
@@ -15,14 +17,14 @@ export class TicketSystem {
   constructor(tickets: number) {
     this._tickets = tickets;
     if(this._tickets > 0){
-      this._state = new State(this);
+      this._state = new InStockState(this);
       // this.enterState(IState.IN_STOCK);
     }
   }
 
   public insertCoin(coin: number = 1): void {
     console.log('[ACTION] 投入硬幣', coin, "枚");
-    this._state.insertCoin(coin);
+    this._state.insertCoin();
   }
 
   public turnLight(on: boolean): void {
@@ -38,13 +40,8 @@ export class TicketSystem {
   }
 
 
-  private issueOneTicket(): void {
-    this._tickets = this._tickets - 1;
-    if(this._tickets === 0){
-      this.enterState(IState.SOLD_OUT);
-    }else if(this._total < TicketSystem.PRICE){
-      this.enterState(IState.IN_STOCK);
-    }
+  public issueOneTicket(): void {
+   
     console.log('[ACTION] 發出一張票');
   }
 
@@ -56,43 +53,23 @@ export class TicketSystem {
 
   public fillTickets(tickets: number): void {
     console.log('[ACTION] 填入', tickets, '張票');
-    this._tickets = this._tickets + tickets;
-    if(this._state === IState.SOLD_OUT){
-      this.enterState(IState.IN_STOCK);
-    }
+    this._state.fillTickets(tickets);
   }
 
   public pressBuyButton() {
     console.log("[ACTION] 按下購買按鈕");
-
-    if (!this.isEnoughCoins()) {
-      console.log('[INFO] 硬幣數量不夠');
-      return;
-    }
-    this._total -= TicketSystem.PRICE;
-    this.issueOneTicket();
-    this.updateCoinsDisplay();
+    this._state.pressBuyButton();
   }
   public pressRefundButton() {
     console.log('[ACTION] 按下退幣按鈕');
-    this.spitCoins(this._total);
-    if(this._state === IState.ENOUGH_COINS){
-      this.enterState(IState.IN_STOCK);
-    }
+    this._state.pressRefundButton();
   }
-
-
-
-  private isEnoughCoins() {
-    return this._total >= TicketSystem.PRICE;
-  }
-
 
   // 為了讓Client能夠直接改變狀態, 所以針對各個狀態所產生的值的變化也要一起寫在裡面
   public enterState(state:State){
     this._state.exitState();
     this._state = state;
-    console.log("[INFO] 狀態改變為", state);
+    console.log("[INFO] 狀態改變為", state.getName());
     this._state.enterState(true);
   }
 
