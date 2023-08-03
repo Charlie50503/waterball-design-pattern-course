@@ -1,3 +1,4 @@
+import { Position } from '../../position';
 import { Treasure } from '../treasure/treasure';
 
 export enum TreasureType {
@@ -9,31 +10,33 @@ export enum TreasureType {
   KingsRock = "王者之印 (King's Rock)",
   DokodemoDoor = '任意門 (Dokodemo Door)',
 }
-type TreasureCreator = () => Treasure;
+type TreasureCreator = (position: Position) => Treasure;
+
 export class TreasureFactory {
   private creators = new Map<TreasureType, {
-    creator:TreasureCreator,
-    probability:number
+    creator: TreasureCreator,
+    probability: number
   }>();
 
   registerTreasure(type: TreasureType, creator: TreasureCreator, probability: number) {
     this.creators.set(type, {
-      creator:creator,
-      probability:probability
+      creator: creator,
+      probability: probability
     });
   }
 
-  createTreasure(type: TreasureType): Treasure {
+
+  createTreasure(type: TreasureType, position: Position): Treasure {
     const creator = this.creators.get(type);
     if (!creator) {
       throw new Error(`Invalid treasure type: ${type}`);
     }
-    return creator.creator();
+    return creator.creator(position);
   }
 
   getCreators(): Map<TreasureType, {
-    creator:TreasureCreator,
-    probability:number
+    creator: TreasureCreator,
+    probability: number
   }> {
     return this.creators;
   }

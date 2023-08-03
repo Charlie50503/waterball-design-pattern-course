@@ -4,19 +4,23 @@ import { Role } from '../role';
 
 export abstract class Treasure extends MapObject {
   static readonly PROBABILITY:number;
+  // is 被獲得
+  isAcquired = false;
   printFlag(): string {
     return 'x';
   }
 
-  // public abstract getProbability(): number;
+  public abstract getEffect(toucher: Role): void;
 
-  public abstract onTouch(toucher: Role): void;
+  public onTouch(toucher: Role){
+    this.isAcquired = true;
+    console.log(toucher.getName(), '獲得了', this.getName());
+    this.getEffect(toucher);
+  };
 
   getType(): mapObjectType {
     return mapObjectType.treasure
   }
-
-
 }
 
 

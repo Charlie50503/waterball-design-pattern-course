@@ -4,9 +4,9 @@ export abstract class MapObject {
   protected position!: Position;
   public abstract printFlag(): string;
 
-  public setPosition(x: number, y: number) {
-    this.position = new Position(x, y);
-  };
+  constructor(position: Position) {
+    this.position = position;
+  }
 
   public getPosition(): Position {
     return this.position;

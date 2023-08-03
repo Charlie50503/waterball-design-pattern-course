@@ -2,17 +2,18 @@ import { GameMap } from '../map';
 import { Position } from '../position';
 import { NormalState } from '../state/normalState';
 import { State } from '../state/state';
+import { EState } from '../state/state.enum';
 import { mapObjectType } from './mapObject.interface';
 import { MoveActionCommand, MoveStrategy } from './moveStrategy';
 import { Role } from './role';
 
 export class Monster extends Role {
-  constructor(map: GameMap) {
-    super(map);
+  constructor(position: Position,map: GameMap) {
+    super(position,map);
   }
 
   async act(): Promise<void> {
-    if (this.isHeroBeside()) {
+    if (this.isHeroBeside() || this.state.getType() === EState.Erupting) {
       this.state.onAttack();
     } else {
       this.move(this.randomDirection());
@@ -20,13 +21,14 @@ export class Monster extends Role {
   }
 
   public attack(){
+    console.log(`${this.getName()} 攻擊`);
     const hero = this.findHero();
     hero?.state.onDamage(50);
   }
 
 
   public async handleMove(moveStrategy: MoveStrategy): Promise<void> {
-    moveStrategy.printMoveableDirections();
+    // moveStrategy.printMoveableDirections();
     const action = Math.random() < 0.5 ? '0' : '1';
     moveStrategy.handleMove(action as MoveActionCommand);
   }
@@ -54,7 +56,7 @@ export class Monster extends Role {
     return false;
   }
 
-  onDamage(damage: number): void {}
+  // onDamage(damage: number): void {}
 
   printFlag(): string {
     return 'M';

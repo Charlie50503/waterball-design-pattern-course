@@ -6,14 +6,13 @@ import { Accelerated } from '../../state/accelerated';
 
 export class AcceleratingPotion extends Treasure {
   static readonly PROBABILITY = 0.2;
-  getEffect(): void {}
 
   public getName(): string {
     return '加速藥水';
   }
 
 
-  public onTouch(toucher: Role): void {
+  public getEffect(toucher: Role): void {
     toucher.setState(new Accelerated(toucher));
   }
 }

@@ -9,8 +9,13 @@ export abstract class State {
 
   constructor(role: Role) {
     this.role = role;
-    console.log(`進入到狀態: ${this.getName()}`);
+    
   }
+
+  public enterState(){
+    console.log(this.role.getName() ,`進入到狀態: ${this.getName()}`);
+  }
+
   public abstract getName(): string;
   public onRoundStart(){};
   public abstract getDurationRound(): number;
@@ -44,5 +49,9 @@ export abstract class State {
 
   public countCurrentDurationRound() {
     this.currentDurationRoundCount++;
+  }
+
+  async onAct(){
+    await this.role.act()
   }
 }

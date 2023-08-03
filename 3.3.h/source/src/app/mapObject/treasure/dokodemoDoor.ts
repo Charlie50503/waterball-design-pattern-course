@@ -6,7 +6,6 @@ import { Teleport } from '../../state/teleport';
 
 export class DokodemoDoor extends Treasure {
   static readonly PROBABILITY = 0.1;
-  getEffect(): void {}
 
   public getName(): string {
     return '任意門';
@@ -14,7 +13,7 @@ export class DokodemoDoor extends Treasure {
 
 
 
-  public onTouch(toucher: Role): void {
+  public getEffect(toucher: Role): void {
     toucher.setState(new Teleport(toucher));
   }
 }

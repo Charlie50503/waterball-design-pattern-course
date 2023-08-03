@@ -5,7 +5,6 @@ import { Healing } from '../../state/healing';
 
 export class HealingPotion extends Treasure {
   static readonly PROBABILITY = 0.15;
-  getEffect(): void {}
 
   public getName(): string {
     return '恢復藥水';
@@ -13,7 +12,7 @@ export class HealingPotion extends Treasure {
 
 
 
-  public onTouch(toucher: Role): void {
+  public getEffect(toucher: Role): void {
     toucher.setState(new Healing(toucher));
   }
 }

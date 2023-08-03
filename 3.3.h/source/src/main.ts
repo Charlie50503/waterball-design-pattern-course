@@ -1,3 +1,4 @@
+import { Position } from './app/position';
 // class GameMap {
 //   map: string[][]; // 存儲二維地圖
 
@@ -19,37 +20,37 @@ function main() {
   const treasureFactory = new TreasureFactory();
   treasureFactory.registerTreasure(
     TreasureType.SuperStar,
-    () => new SuperStar(),
+    (position: Position) => new SuperStar(position),
     SuperStar.PROBABILITY
   );
   treasureFactory.registerTreasure(
     TreasureType.Poison,
-    () => new Poison(),
+    (position: Position) => new Poison(position),
     Poison.PROBABILITY
   );
   treasureFactory.registerTreasure(
     TreasureType.AcceleratingPotion,
-    () => new AcceleratingPotion(),
+    (position: Position) => new AcceleratingPotion(position),
     AcceleratingPotion.PROBABILITY
   );
   treasureFactory.registerTreasure(
     TreasureType.HealingPotion,
-    () => new HealingPotion(),
+    (position: Position) => new HealingPotion(position),
     HealingPotion.PROBABILITY
   );
   treasureFactory.registerTreasure(
     TreasureType.DevilFruit,
-    () => new DevilFruit(),
+    (position: Position) => new DevilFruit(position),
     DevilFruit.PROBABILITY
   );
   treasureFactory.registerTreasure(
     TreasureType.KingsRock,
-    () => new KingsRock(),
+    (position: Position) => new KingsRock(position),
     KingsRock.PROBABILITY
   );
   treasureFactory.registerTreasure(
     TreasureType.DokodemoDoor,
-    () => new DokodemoDoor(),
+    (position: Position) => new DokodemoDoor(position),
     DokodemoDoor.PROBABILITY
   );
 

@@ -28,9 +28,9 @@ export class Teleport extends State {
       } while (!map.isPositionEmpty(position)); // 確保新位置是空地
 
       // 更新角色位置
-      this.role.setPosition(position.x, position.y);
+      this.role.getPosition().updatePosition(position);
 
-      console.log(`角色瞬身至位置 (${position.x}, ${position.y})`);
+      console.log(`${this.role.getName()}瞬身至位置 (${position.x}, ${position.y})`);
       this.role.setState(new NormalState(this.role));
     }
   }

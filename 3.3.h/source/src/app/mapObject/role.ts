@@ -3,29 +3,32 @@ import { Direction } from '../direction.enum';
 import { GameMap } from '../map';
 import { NormalState } from '../state/normalState';
 import { State } from '../state/state';
-import { MapObject } from './mapObject.interface';
+import { MapObject, mapObjectType } from './mapObject.interface';
 import { EWhenTouchedAction, GameTouch } from '../touch';
 import { Treasure } from './treasure/treasure';
 import { MoveStrategy } from './moveStrategy';
+import { AcceleratingPotion } from './treasure/acceleratingPotion';
+import { EState } from '../state/state.enum';
 
 export abstract class Role extends MapObject {
   // map:Map
+  protected direction: Direction;
   protected position!: Position;
   protected hp: number;
   public state: State;
   public isAlive: boolean = true;
   protected map: GameMap;
 
-  constructor(map: GameMap) {
-    super();
+  constructor(position:Position, map: GameMap) {
+    super(position);
     this.map = map;
+    this.direction = this.randomDirection();
     // this.position = position;
     this.hp = this.getMaxHP();
     this.state = new NormalState(this);
   }
 
   abstract act(): Promise<void>;
-  abstract onDamage(damage: number): void;
 
   abstract getMaxHP(): number;
 
@@ -40,58 +43,40 @@ export abstract class Role extends MapObject {
   }
 
   public setState(state: State) {
+    
     this.state = state;
+    this.state.enterState();
   }
 
   public move(direction: Direction) {
-    const nextPosition = this.findNextPosition(this.position, direction);
+    const nextPosition = this.position.findNextPosition(direction);
     // ...移動角色到新的位置...
 
     // 檢查新的位置是否有其他的 MapObject
-    const touchee = this.map.findPositionMapObject(
-      new Position(nextPosition.x, nextPosition.y)
-    );
+    const touchee = this.map.findPositionMapObject(nextPosition);
+
     if (touchee) {
       const touch = new GameTouch(this, touchee);
       const action = touch.onTouch();
       if (action === EWhenTouchedAction.getState) {
         const treasure = touchee as Treasure;
         treasure.onTouch(this);
+        this.map.removeTreasure(treasure);
+        console.log(this.getName() + `向 ${direction} 移動完成`);
+        this.setDirection(direction);
+        this.position.updatePosition(nextPosition);
       } else {
-        console.log(`碰撞到 ${touchee.getName()}`);
-        console.log(`不能移動`);
+        console.log(this.getName(), `碰撞到 ${touchee.getName()} 不能移動`);
       }
       // 基於 action 進行一些適當的處理...
     } else {
       this.position = new Position(nextPosition.x, nextPosition.y);
-      console.log(this.getName() + '移動完成');
+      console.log(this.getName() + `向 ${direction} 移動完成`);
+      this.setDirection(direction);
     }
   }
 
-  public findNextPosition(position: Position, direction: Direction) {
-    switch (direction) {
-      case Direction.Up:
-        return {
-          x: position.x,
-          y: position.y - 1,
-        };
-      case Direction.Down:
-        return {
-          x: position.x,
-          y: position.y + 1,
-        };
-      case Direction.Left:
-        return {
-          x: position.x - 1,
-          y: position.y,
-        };
-      case Direction.Right:
-        return {
-          x: position.x + 1,
-          y: position.y,
-        };
-    }
-  }
+
 
   public onHealing(heal: number) {
     console.log(`${this.getName()}補血 ${heal} 點`);
@@ -126,4 +111,26 @@ export abstract class Role extends MapObject {
   }
 
   public abstract attack(): void;
+
+
+  getHp() {
+    return this.hp;
+  }
+
+  getDirection() {
+    return this.direction;
+  }
+
+  public onDamage(damage: number): void {
+    this.hp -= damage;
+    console.log(`${this.getName()} 受到 ${damage} 點傷害`);
+    if (this.isDead()) {
+      console.log(`${this.getName()} 死亡`);
+      this.dead();
+    }
+  }
+
+  setDirection(direction: Direction) {
+    this.direction = direction;
+  }
 }

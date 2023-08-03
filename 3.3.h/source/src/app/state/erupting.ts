@@ -4,10 +4,6 @@ import { EState } from './state.enum';
 import { Teleport } from './teleport';
 
 export class Erupting extends State {
-  public getEffect(): void {
-    console.log('getEffect');
-  }
-
   public getName(): string {
     return '爆發';
   }

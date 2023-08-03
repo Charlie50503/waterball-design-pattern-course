@@ -9,6 +9,12 @@ import {
 } from './mapObject/treasureFactory/treasureFactory';
 import { Position } from './position';
 import { Round } from './round';
+import { Erupting } from './state/erupting';
+import { Healing } from './state/healing';
+import { Invincible } from './state/invincible';
+import { Orderless } from './state/orderless';
+import { Poisoned } from './state/poisoned';
+import { Stockpile } from './state/stockpile';
 type TreasureItem = {
   type: TreasureType;
   range: [number, number];
@@ -57,7 +63,8 @@ export class Game {
   }
 
   public async start() {
-    while (this.isGameOver()) {
+    while (!this.isGameOver()) {
+      this.map.printMap()
       const round = new Round(this.map);
       await round.start();
     }
@@ -85,23 +92,20 @@ export class Game {
   }
 
   private generateHero(mapWidth: number, mapHeight: number) {
-    const hero = new Hero(this.map);
     const position = this.generatePosition(mapWidth, mapHeight);
-    hero.setPosition(position.x, position.y);
+    const hero = new Hero(position, this.map);
     return hero;
   }
 
   private generateMonster(mapWidth: number, mapHeight: number) {
-    const monster = new Monster(this.map);
     const position = this.generatePosition(mapWidth, mapHeight);
-    monster.setPosition(position.x, position.y);
+    const monster = new Monster(position, this.map);
     return monster;
   }
 
   private generateObstacle(mapWidth: number, mapHeight: number) {
-    const obstacle = new Obstacle();
     const position = this.generatePosition(mapWidth, mapHeight);
-    obstacle.setPosition(position.x, position.y);
+    const obstacle = new Obstacle(position);
     return obstacle;
   }
 
@@ -115,9 +119,8 @@ export class Game {
       return item.range && random >= item.range[0] && random < item.range[1];
     });
     if (treasureItem) {
-      const treasure = treasureFactory.createTreasure(treasureItem.type);
       const position = this.generatePosition(mapSize.width, mapSize.height);
-      treasure.setPosition(position.x, position.y);
+      const treasure = treasureFactory.createTreasure(treasureItem.type, position);
       return treasure;
     } else {
       throw Error('沒有生成任何物品');
@@ -125,8 +128,7 @@ export class Game {
   }
 
   private generatePosition(width: number, height: number): Position {
-    const position = new Position(this.getRandomNumber(width),this.getRandomNumber(height))
-    console.log(position);
+    const position = new Position(this.getRandomNumber(width), this.getRandomNumber(height))
 
     if (this.map.isPositionEmpty(position)) {
       return position;

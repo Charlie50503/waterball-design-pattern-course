@@ -10,26 +10,18 @@ import { MoveActionCommand, MoveStrategy } from './moveStrategy';
 import { Role } from './role';
 
 export class Hero extends Role {
-  direction: Direction;
   readlineService = new ReadlineService();
   readlineValidation = new ReadlineValidation();
-  constructor(map: GameMap) {
-    super(map);
-    this.direction = this.randomDirection();
+  constructor(position:Position,map: GameMap) {
+    super(position,map);
+    
   }
 
   public async act(): Promise<void> {
     await this.handleHeroAction();
   }
 
-  public onDamage(damage: number): void {
-    this.hp -= damage;
-    console.log(`${this.getName()} 受到 ${damage} 點傷害`);
-    if (this.isDead()) {
-      console.log(`${this.getName()} 死亡`);
-      this.dead();
-    }
-  }
+
 
   public printFlag(): string {
     return this.direction;
@@ -73,7 +65,7 @@ export class Hero extends Role {
     if (action === '0') {
       await this.state.onMove();
     } else if (action === '1') {
-      this.handleAttack();
+      await this.state.onAttack();
     }
   }
 
@@ -81,25 +73,13 @@ export class Hero extends Role {
     moveStrategy.printMoveableDirections();
     const action = await this.readlineService.getValidUserInput(
       '請輸入移動方向:',
-      this.readlineValidation.isValidHeroActionOperation
+      this.readlineValidation.isValidHeroMoveOperation
     );
     moveStrategy.handleMove(action as MoveActionCommand);
   }
 
   public getName(): string {
     return '英雄';
-  }
-
-  public async handleAttack() {
-    const action = await this.readlineService.getValidUserInput(
-      '請輸入:',
-      this.readlineValidation.isValidHeroActionOperation
-    );
-    if (action === '0') {
-      await this.state.onMove();
-    } else if (action === '1') {
-      this.state.onAttack();
-    }
   }
 
   public attack() {

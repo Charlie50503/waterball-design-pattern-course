@@ -7,14 +7,13 @@ import { Stockpile } from '../../state/stockpile';
 
 export class KingsRock extends Treasure {
   static readonly PROBABILITY = 0.1;
-  getEffect(): void {}
 
   public getName(): string {
     return '王者之印';
   }
 
 
-  public onTouch(toucher: Role): void {
+  public getEffect(toucher: Role): void {
     toucher.setState(new Stockpile(toucher));
   }
 }
