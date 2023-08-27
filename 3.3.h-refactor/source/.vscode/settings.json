@@ -1,0 +1,99 @@
+{
+  "prettier.configPath": ".prettierrc.json",
+  "cSpell.words": [
+    "Dokodemo",
+    "touchee",
+    "uuidv"
+  ],
+  "vscodeGitCommit.template": [
+    "3.3.H {tag}: {page}→{title}",
+    "",
+    "{message}"
+  ],
+  "vscodeGitCommit.variables": {
+    "tag": [
+      {
+        "label": "feat",
+        "detail": "新增/修改功能 (feature)"
+      },
+      {
+        "label": "fix",
+        "detail": "修補 bug (bug fix)"
+      },
+      {
+        "label": "docs",
+        "detail": "文件 (documentation)"
+      },
+      {
+        "label": "style",
+        "detail": "格式 (不影響程式碼運行的變動 white-space, formatting, missing semi colons, etc)"
+      },
+      {
+        "label": "refactor",
+        "detail": " 重構 (既不是新增功能，也不是修補 bug 的程式碼變動)。"
+      },
+      {
+        "label": "chore",
+        "detail": "增加或修改第三方套件(輔助工具)等 (maintain)"
+      },
+      {
+        "label": "deploy",
+        "detail": "部屬配置"
+      }
+    ],
+    "author": [
+      {
+        "label": "古家寧",
+        "detail": "輸入開發者"
+      }
+    ],
+    "page": [
+      {
+        "label": "代碼"
+      },
+      {
+        "label": "專案"
+      },
+      {
+        "label": "vs code"
+      },
+      {
+        "label": "開發用套件"
+      },
+      {
+        "label": "共用方法"
+      },
+      {
+        "label": "共用 Service"
+      },
+      {
+        "label": "環境變量"
+      },
+      {
+        "label": "其他"
+      },
+      {
+        "label": "開發環境設定"
+      },
+      {
+        "label": "utils"
+      },
+      {
+        "label": "Interface"
+      },
+      {
+        "label": "types"
+      }
+    ],
+    "scope": [
+      {
+        "label": "第一章節"
+      },
+      {
+        "label": "vscode 設定"
+      }
+    ],
+
+
+  },
+}
