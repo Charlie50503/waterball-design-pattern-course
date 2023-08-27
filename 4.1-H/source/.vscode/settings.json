@@ -1,0 +1,51 @@
+{
+  "vscodeGitCommit.template": [
+    "第四章節 4-1 [{tag}]: {subject}→{title}",
+    "",
+    "{message}"
+  ],
+  "vscodeGitCommit.variablesDisplayTitles": {
+    "scope": "Fill the pseudo of the person commiting with an @"
+  },
+  "scss.format.enable": false,
+  "css.format.enable": false,
+  "terminal.integrated.env.windows": {
+    "path": "C:\\Users\\11311\\.console-ninja\\.bin;${env:PATH}"
+  },
+  "vscodeGitCommit.variables": {
+    "prefix": "keke",
+    "tag": [
+      {
+        "label": "feat",
+        "detail": "新增/修改功能 (feature)"
+      },
+      {
+        "label": "fix",
+        "detail": "修補 bug (bug fix)"
+      },
+      {
+        "label": "docs",
+        "detail": "文件 (documentation)"
+      },
+      {
+        "label": "style",
+        "detail": "格式 (不影響程式碼運行的變動 white-space, formatting, missing semi colons, etc)"
+      },
+      {
+        "label": "refactor",
+        "detail": " 重構 (既不是新增功能，也不是修補 bug 的程式碼變動)。"
+      },
+      {
+        "label": "chore",
+        "detail": "增加或修改第三方套件(輔助工具)等 (maintain)"
+      },
+      {
+        "label": "deploy",
+        "detail": "部屬配置"
+      }
+    ],
+
+
+
+  },
+}
