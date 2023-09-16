@@ -1,25 +1,27 @@
-import { AdjacencyList, IRelationshipAnalyzer } from './relationshipAnalyzer.interface';
+import {
+  AdjacencyList,
+  IRelationshipAnalyzer,
+} from './relationshipAnalyzer.interface';
 import { SuperRelationshipAnalyzer } from '../superRelationshipAnalyzer/superRelationshipAnalyzer';
 import { Graph } from '@dagrejs/graphlib';
-
-
+import { IRelationshipGraph } from '../relationshipGraph/relationshipGraph.interface';
+import { RelationshipGraphAdapter } from '../relationshipGraph/relationshipGraphAdapter';
 
 export class RelationshipAnalyzerAdapter implements IRelationshipAnalyzer {
   private userNameSet = new Set<string>();
-  private graph = new Graph({
-    directed: false,
-    compound: true,
-    multigraph: true,
-  });
-  private superRelationshipAnalyzer = new SuperRelationshipAnalyzer();
+  private superRelationshipAnalyzer: SuperRelationshipAnalyzer;
 
-  public parse(script: string) {
+  constructor(superRelationshipAnalyzer: SuperRelationshipAnalyzer) {
+    this.superRelationshipAnalyzer = superRelationshipAnalyzer;
+  }
+
+  public parse(script: string): IRelationshipGraph {
     const adjacencyList = this.parseAdjacencyList(script);
     const edges = this.convertToEdges(adjacencyList);
     this.setUserNameSet(script);
-
     this.superRelationshipAnalyzer.init(edges);
-    this.graphInit(adjacencyList);
+
+    return new RelationshipGraphAdapter(adjacencyList);
   }
 
   public getMutualFriends(name1: string, name2: string): string[] {
@@ -31,21 +33,6 @@ export class RelationshipAnalyzerAdapter implements IRelationshipAnalyzer {
     });
 
     return mutualFriends;
-  }
-
-  public hasConnection(name1: string, name2: string) {
-    return this.graph.hasEdge(name1, name2);
-  }
-
-  private graphInit(adjacencyList: AdjacencyList) {
-    for (const [node, neighbors] of Object.entries(adjacencyList)) {
-      if (!this.graph.hasNode(node)) {
-        this.graph.setNode(node);
-      }
-      neighbors.forEach((neighbor) => {
-        this.graph.setEdge(node, neighbor);
-      });
-    }
   }
 
   private setUserNameSet(input: string) {
